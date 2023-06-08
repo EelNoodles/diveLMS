@@ -1,0 +1,453 @@
+.chatArea, .noteArea{
+    position: relative;
+    height: 768px;
+    width: 20%;
+    background-color: lightblue;
+    margin: 0 2% 0 2%;
+    border-radius: 0 20px 20px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.chatArea{
+    position: relative;
+    border-radius: 20px 0 0 20px;
+    filter: opacity(0.8);
+    pointer-events: none;
+}
+
+.chatArea.hasEvent{
+    pointer-events: all;
+}
+
+.chatNoOpen{
+    display: block;
+    position: absolute;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ff4d4d;
+    top: 50%;   
+    left: 50%;
+    width: 80%;
+    text-shadow: 0px 0px 20px white;
+    transform: translate(-50%, -100%);
+}
+
+.conChatContent{
+    overflow: scroll;
+}
+
+.chatNoOpen.nonShow{
+    display: none;
+}
+
+.diveContentTitle{
+    position: relative;
+    height: 7%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    transform: translate(5%, 10%);
+}
+
+.diveContentTitle::first-letter{
+    font-size: 2.4rem;
+    color: #FC5185;
+}
+
+.diveContentTitle::after{
+    position: absolute;
+    content: "";
+    height: 3px;
+    width: 80%;
+    bottom: 0;
+    left: 0;
+    background-color: #07182E;
+}
+
+.chatMessenge, .noteMessenge{
+    height: 80%;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.noteMessenge > ul > li{
+    font-size: 1.1rem;
+    padding: 2%;
+    width: 80%;
+    overflow-wrap: break-word;
+}
+
+.chatMessenge > ul > li::marker{
+    content: "🔺";
+}
+
+.chatMessenge > ul > li{
+    font-size: 1.1rem;
+    padding: 2%;
+    width: 80%;
+    overflow-wrap: break-word;
+}
+
+.noteLiTrashCan, .noteLiShare{
+    width: 7%;
+    aspect-ratio: 1/1;
+    opacity: 0;
+    float: right;
+    margin: 2%;
+    transition: 0.5s linear;
+}
+
+.noteLiTrashCan:hover, .noteLiShare:hover{
+    transform: scale(1.2);
+    filter: drop-shadow(0px 0px 2px lightcoral);
+}
+
+.noteMessenge > ul > li:hover{
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.noteMessenge > ul > li:hover .noteLiTrashCan{
+    opacity: 1;
+}
+
+.noteMessenge > ul > li:hover .noteLiShare{
+    opacity: 1;
+}
+
+.noteMessenge > ul > li::marker{
+    content: "🔹";
+}
+
+.noteCurrentNote{
+    width: 75%;
+    height: 40px;
+    margin-top: 6%;
+    border-radius: 4%;
+    background-color: #FFF9DE;
+    transform: translate(10%);
+    overflow: hidden;
+    transition: 0.5s linear;
+}
+
+.noteCurrentNote:hover{
+    height: 200px;
+    overflow: scroll;
+}
+
+.noteCurrentNote > ul{
+    margin: 0;
+    padding: 0;
+}
+
+.noteCurrentNote > ul > li{
+    text-align: center;
+    user-select: none;
+    width: 100%;
+    height: 40px;
+    color: #07182E;
+    font-weight: bold;
+    font-size: 1.2rem;
+    line-height: 40px;
+}
+
+.noteCurrentNote > ul > li:nth-child(1){
+    background-color: #b6d7a8;
+}
+
+.noteCurrentNote > ul > li:not(:nth-child(1)):hover{
+    background-color: #FF6969;
+}
+
+
+.noteCurrentNote > ul > li::marker{
+    content: "";
+}
+
+.diveinputArea{
+    position: relative;
+    height: 10%;
+    width: 100%;
+    background-color: #07182E;
+    border-radius: 0 0 0 20px;
+}
+
+.DIA_note{
+    border-radius: 0 0 20px 0px;
+}
+
+.diveInput{
+    position: absolute;
+    left: 4%;
+    top: 50%;
+    height: 60%;
+    width: 75%;
+    transform: translateY(-50%);
+    border-radius: 40px;
+    overflow-wrap: inherit;
+    border: 0;
+    font-size: 1rem;
+}
+
+.diveInput:focus{
+    border: 0;
+    outline: none;
+}
+
+.btnSend{
+    position: absolute;
+    width: 12%;
+    aspect-ratio: 1/1;
+    left: 85%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+}
+
+.btnSend:hover{
+    filter: brightness(1.2);
+    -webkit-filter: drop-shadow(0px 0px 20px white);
+}
+
+.diveArea{
+    background-color: lightcoral;
+    height: 768px;
+    width: 1024px;
+}
+
+.course{
+    width: 30%;
+    height: 80%;
+    margin: 2%;
+    border-radius: 5%;
+    background-color: rgb(253, 253, 158);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: 1s ease;
+}
+
+.course.active, .diveContent.active{
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.course > h1::first-letter{
+    font-size: 3rem;
+    color: #FC5185;
+    font-weight: bold;
+}
+
+.coursesList{
+    width: 90%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.noOpenCourse{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 5%;
+    transform: translateY(-5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+}
+
+.noOpenCourse > div{
+    font-size: 5rem;
+    color: #FF6969;
+    font-weight: bold;
+    user-select: none;
+}
+
+.courseLink, .courseFinPer{
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin: 3%;
+    user-select: none;
+}
+
+.courseLink::before{
+    content: "👆";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 5px;
+    width: 50%;
+    height: 3px;
+    top: 100%;
+    z-index: -1;
+    background-color: #b6d7a8;
+    transition: transform 0.3s ease;
+
+    transform: scaleX(0);
+    transform-origin: right;
+}
+
+.courseLink:hover::before{
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.courseLink::after{
+    content: " ❌ （尚未完成）";
+    font-size: 1.2rem;
+    color: #FC5185;
+}
+
+.courseLink.finish::after{
+    content: " ✔️（完成）";
+    font-size: 1.2rem;
+    color: lightgreen;
+}
+
+.courseLink:hover{
+    animation: color 2s linear infinite;
+    color: #FC5185;
+}
+
+@keyframes color {
+    to{
+        filter: hue-rotate(360deg);
+    }
+}
+
+.waitForConnect{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40%;
+    height: 40%;
+    transform: translate(-50%, -50%);
+    background-color: #FC5185;
+    display: none;
+    opacity: 0;
+    transition: 0.5s ease;
+    border-radius: 20px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.waitForConnect.active{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 38%;
+    height: 45%;
+    transform: translate(-50%, -50%);
+    background-color: #FF6969;
+    display: flex;
+    opacity: 1;
+}
+
+.waitForConnect > h1{
+    position: relative;
+    height: 10%;
+    width: 100%;
+    text-align: center;
+    color: white;
+}
+
+.waitForConnect > h1::before{
+    content: "";
+    position: absolute;
+    height: 3px;
+    background: white;
+    width: 100%;
+    bottom: -10px;
+    left: 0;
+    animation: scale 1s linear infinite alternate-reverse;
+
+    transform: scale(0);
+    transform-origin: center;
+}
+
+@keyframes scale {
+    to{
+        transform: scale(1);
+    }
+}
+
+.connectBtn{
+    width: 30%;
+    height: 15%;
+    background: white;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: hue_filter 3s linear infinite;
+    box-shadow: 0px 0px 20px #b6d7a8;
+}
+
+.connectBtn h2 {
+    z-index: 1;
+    color: #FC5185;
+    font-size: 1.4rem;
+    user-select: none;
+    font-weight: bold;
+  }
+
+@keyframes hue_filter {
+    to{
+        filter: hue-rotate(360deg);
+    }
+  }
+
+.connect_player{
+    height: 45%;
+    width: 90%;
+    margin: 4%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.playerList{
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-color: #A6D0DD;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    animation: upDown 2s ease-in-out alternate-reverse infinite;
+    transform: translateY(-5%);
+    transition: 1s linear;
+}
+
+.playerList:nth-child(2){
+    background-color: #FFD3B0;
+}
+
+.playerList:nth-child(3){
+    background-color: #FFF9DE;
+}
+
+.playerIcon{
+    position: relative;
+    aspect-ratio: 1/1;
+    height: 80%;
+    filter: drop-shadow(0px 0px 5px black);
+}
+
+@keyframes upDown {
+    to{
+        transform: translateY(5%);
+        opacity: 0.9;
+        box-shadow: 0px 2px 20px 1px #FF6969;
+    }
+}

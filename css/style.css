@@ -1,0 +1,262 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    background-color: #FBFBFB;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+.NavBar{
+    position: absolute;
+    height: 10%;
+    width: 100%;
+    background-color: #b6d7a8;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.NavBar > .nav_area:nth-child(1){
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.NavBar > .nav_area:nth-child(1) > img{
+    width: 10%;
+    aspect-ratio: 1/1;
+    margin-right: 20px;
+}
+
+.NavBar > .nav_area:nth-child(2){
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;    
+}
+
+.nav_text{
+    position: relative;
+    font-size: 2.3vh;
+    z-index: 2;
+    transition: 0.5s;
+    padding: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    user-select: none;
+    color: white;
+    margin: 0 5% 0 5%;
+}
+
+.nav_text:not(.nav_image)::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: #FC5185;
+    transition: transform 0.3s ease;
+
+    transform: scaleX(0);
+    transform-origin: right;
+}
+
+.nav_text:hover::before{
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.Content{
+    position: absolute;
+    top: 10%;
+    height: 90%;
+    width: 100%;
+    transition: 0.5s linear;
+    pointer-events: all;
+}
+
+.Content.blur{
+    filter: blur(5px);
+    pointer-events: none;
+}
+
+.contentArea{
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.diveContent{
+    opacity: 0;
+    transform: translateY(100%);
+    transition: 1s ease;
+}
+
+.signInArea{
+    width: 25%;
+    height: 50%;
+    border-radius: 5%;
+    background-color: rgb(253, 253, 158);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.signInArea > h1{
+    width: 90%;
+}
+
+.signInArea > h1::first-letter{
+    color: #FC5185;
+    font-size: 3rem;
+}
+
+.signInArea > form{
+    width: 90%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+.signInInput{
+    width: 80%;
+    height: 15%;
+    margin-bottom: 3%;
+    border-radius: 5px;
+    border: 0;
+    font-size: 1.3rem;
+    background: white;
+}
+
+.signInInput:focus{
+    outline: none;
+}
+
+.signInLabel{
+    font-weight: bold;
+    font-size: 1.3rem;
+    margin-bottom: 2%;
+}
+
+.signInOutbtn{
+    width: 30%;
+    height: 18%;
+    background: #07182E;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2%;
+}
+
+.signInOutbtn h2 {
+    z-index: 1;
+    color: #fff;
+    font-size: 1.2rem;
+    user-select: none;
+  }
+
+#inputState{
+    font-weight: bold;
+}
+
+.signInOutbtn::before {
+    content: "";
+    position: absolute;
+    width: 200%;
+    background-image: linear-gradient(180deg, rgb(0, 183, 255), rgb(255, 48, 255));
+    height: 200%;
+    animation: rotBGimg 3s linear infinite;
+    transition: all 0.2s linear;
+  }
+  
+  @keyframes rotBGimg {
+    from {
+      transform: rotate(0deg);
+    }
+  
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+.signInOutbtn::after {
+    content: "";
+    position: absolute;
+    background: #07182E;
+    inset: 4px;
+    border-radius: 10px;
+  } 
+
+#hasSignIn{
+    width: 80%;
+    height: 60%;
+    overflow-wrap: break-word;
+  }
+
+.dialog{
+    position: absolute;
+    left: 50%;
+    top: -10%;
+    width: 25%;
+    background-color: #FBFBFB;
+    box-shadow: 0px 0px 30px gray;
+    border-radius: 20px;
+    transform: translateX(-50%);
+    padding: 5px;
+    display: none;
+    align-items: center;
+    flex-direction: column;
+
+    opacity: 0;
+    transition: 0.5s ease;
+  }
+
+.dialog.active{
+    opacity: 1;
+    top: 8%;
+}
+
+.dialog_close{
+    position: absolute;
+    width: 8%;
+    aspect-ratio: 1/1;
+    left: 100%;
+    transform: translate(-70%,-50%);
+    user-select: none;
+  }
+
+.resultActive{
+    opacity: 0;
+    transform: translateY(100%);
+    transition: 1s ease;
+}
+
+.resultActive.active{
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.resultArea{
+    position: relative;
+    width: 50%;
+    height: 68%;
+    margin-left: 4%;
+    border-radius: 16px;
+}

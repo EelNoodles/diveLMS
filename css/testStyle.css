@@ -1,0 +1,100 @@
+#testArea{
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+    background: white;
+}
+
+.questionDiv{
+    position: relative;
+    margin: 2%;
+    display: flex;
+    flex-direction: column;
+}
+
+.questionDiv > img{
+    width: 60%;
+    margin-left: 2%
+}
+
+.questionContentDiv{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    margin: 2%;
+}
+
+.questionContentDiv{
+    position: relative;
+}
+
+.questionContentDiv > div{
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    margin-right: 5%;
+    padding: 10px;
+}
+
+.questionContentDiv > div > img{
+    width: 80%;
+    aspect-ratio: 1/1;
+    pointer-events: none;
+}
+
+.questionContentDiv > div.choice{
+    color: #FC5185;
+    font-weight: bold;
+    user-select: none;
+    background-color: lightgoldenrodyellow  ;
+    border-radius: 20px;
+}
+
+.questionContentDiv > div.ans{
+    color: yellow;
+    font-weight: bold;
+    user-select: none;
+    background-color: lightcoral  ;
+    border-radius: 20px;
+}
+
+.submitTest{
+    width: 15%;
+    height: 6%;
+    background: #07182E;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 2%;
+    border-bottom: 5%;
+}
+
+.submitTest h2 {
+    z-index: 1;
+    color: #fff;
+    font-size: 1.2rem;
+    user-select: none;
+  }
+
+.submitTest::before {
+    content: "";
+    position: absolute;
+    width: 200%;
+    background-image: linear-gradient(180deg, rgb(0, 183, 255), rgb(255, 48, 255));
+    height: 200%;
+    animation: rotBGimg 3s linear infinite;
+    transition: all 0.2s linear;
+  }
+  
+.submitTest::after {
+    content: "";
+    position: absolute;
+    background: #07182E;
+    inset: 4px;
+    border-radius: 10px;
+  } 
