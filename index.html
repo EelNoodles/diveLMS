@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>乙溴鈮!</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/courseStyle.css">
+    <link rel="stylesheet" href="css/resultStyle.css">
+    <link rel="stylesheet" href="css/testStyle.css">
+    <script
+    src="https://code.jquery.com/jquery-3.7.0.js"
+    integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+    crossorigin="anonymous"></script>
+    <script src="lib/Photon-Javascript_SDK.js"></script>
+    <script src="https://dive.nutn.edu.tw/Experiment/js/dive.linker.js"></script>
+    <script type="module" src="js/javaScript.js"></script>
+    <script type="text/javascript" src="cloud-app-info.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+</head>
+<body>
+    <script>
+        if (DemoFbAppId) {
+            window.fbAsyncInit = function () {
+                FB.Event.subscribe('auth.authResponseChange', function (response) {
+                    if (response.status === "connected") {
+                        demo.setCustomAuthentication("token=" + response.authResponse.accessToken);
+                        demo.output("Got fb token. Setting custom fb authentication.");
+                        demo.connectToRegionMaster("EU");
+                    }
+                });
+            };
+            console.log("DemoInit: Fb Auth init");
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "https://connect.facebook.net/en_US/all.js#xfbml=1&appId=" + DemoFbAppId;
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        }
+        else {
+	        console.log("DemoInit: ConnectOnStart set");
+            ConnectOnStart = true;
+        }
+    </script>
+    <div class="NavBar">
+        <div class="nav_area">
+            <img src="res/beaker.png" alt="">
+            <p class="nav_text" id="nav_courseList">課程清單</p>
+            <p class="nav_text" id="nav_courseResult">學習歷程</p>
+        </div>
+        <div class="nav_area">
+            <p class="nav_text">使用者名稱</p>
+            <p class="nav_text nav_image">（頭像）</p>
+        </div>
+    </div>
+    <div class="Content">
+        <!-- 登入區域 -->
+        <div class="contentArea contentSignIn" style="display: flex;">
+            <img src="res/science.gif" alt="" style="margin-right: 5%;">
+            <div class="signInArea">
+                <h1>學生登入</h1>
+                <form action="" id="signInForm">
+                    <label for="inputUserAccount" class="signInLabel">帳號</label>
+                    <input id="inputUserAccount" class="signInInput" type="text">
+                    <label for="inputUserPassword" class="signInLabel">密碼</label>
+                    <input id="inputUserPassword" class="signInInput" type="password">
+                    <div id="inputState"></div>
+                    <div id="btnUserSignIn" class="signInOutbtn"><h2>登入</h2></div>
+                </form>
+                <div id="hasSignIn" style="display: none;">
+                    <h2 id="welcomeBackText"></h2>
+                    <div id="btnUserSignOut" class="signInOutbtn"><h2>登出</h2></div>
+                </div>
+            </div>
+        </div>
+        <!-- DIVE互動實驗區域 -->
+        <div class="contentArea contentDive">
+            <div class="chatArea diveContent">
+                <div class="diveContentTitle">聊天區</div>
+                <div class="chatMessenge"></div>
+                <div class="chatNoOpen">非多人連線模式</div>
+                <div class="diveinputArea">
+                    <input type="text" placeholder="欲傳送的訊息..." class="diveInput" id="inputChat">
+                    <img class="btnSend" src="res/send.png" alt="" id="sendMessenge">
+                </div>
+            </div>
+            <div class="diveArea diveContent">
+                <iframe id="diveIframe" name="dive" src="https://dive.nutn.edu.tw/Experiment/kaleTestExperiment5.jsp?eid=26942&record=false" frameborder="0" width="100%" height="100%"></iframe>
+                <iframe id="diveIframe_2" name="dive_2" src="https://dive.nutn.edu.tw/Experiment/kaleTestExperiment5.jsp?eid=26280&record=false" frameborder="0" width="100%" height="100%"></iframe>
+                <div id="testArea"></div>
+            </div>
+            <div class="noteArea diveContent">
+                <div class="diveContentTitle">個人筆記</div>
+                <div class="noteCurrentNote"></div>
+                <div class="noteMessenge"></div>
+                <div class="diveinputArea DIA_note">
+                    <input type="text" placeholder="欲儲存的筆記內容..." class="diveInput" id="inputNote">
+                    <img class="btnSend" src="res/send.png" alt="" id="sendNote">
+                </div>
+            </div>
+        </div>
+        <!-- 學習課程區域 -->
+        <div class="contentArea contentCourse">
+            <div class="course">
+                <h1>|認識實驗室</h1>
+                <div class="coursesList">
+                    <div id="course_signIn" class="courseLink">登入使用者帳戶</div>
+                    <div id="course_knowLab" class="courseLink">認識實驗室</div>
+                    <div id="course_safetyLab" class="courseLink">實驗室安全</div>
+                </div>
+                <div class="courseFinPer" id="course1FinPer">課程完成度：0%</div>
+            </div>
+            <div class="course">
+                <h1>|實驗 - 1</h1>
+                <div class="coursesList">
+                    <div id="experiment1_intro" class="courseLink">實驗介紹</div>
+                    <div id="experiment1_do" class="courseLink doFor1">實驗操作</div>
+                    <div id="experiment1_theory" class="courseLink">實驗原理</div>
+                    <div id="experiment1_test" class="courseLink">學習檢測</div>
+                </div>
+                <div class="courseFinPer" id="course2FinPer">課程完成度：0%</div>
+            </div>
+            <div class="course">
+                <div class="noOpenCourse"><div>課程未開放</div></div>
+                <h1>|實驗 - 2</h1>
+                <div class="coursesList">
+                    <div id="experiment2_intro" class="courseLink">實驗介紹</div>
+                    <div id="experiment2_do" class="courseLink">實驗操作</div>
+                    <div id="experiment2_theory" class="courseLink">實驗原理</div>
+                    <div id="experiment2_test" class="courseLink">學習檢測</div>
+                </div>
+                <div class="courseFinPer" id="course3FinPer">課程完成度：0%</div>
+            </div>
+        </div>
+        <!-- 學習歷程區域 -->
+        <div class="contentArea contentResult">
+            <img src="res/user.png" alt="" class="resultActive">
+            <div class="resultArea resultActive">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>課程項目</td>
+                            <td>學習進度</td>
+                            <td>測驗分數</td>
+                            <td>實驗次數</td>
+                            <td>實驗分數</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>實驗室安全</td>
+                            <td class="td_progress">尚未進行</td>
+                            <td class="td_testGrade">無</td>
+                            <td>無</td>
+                            <td>無</td>
+                        </tr>
+                        <tr>
+                            <td>實驗一</td>
+                            <td class="td_progress">尚未進行</td>
+                            <td class="td_testGrade">尚未進行</td>
+                            <td>尚未進行</td>
+                            <td>尚未進行</td>
+                        </tr>
+                        <tr>
+                            <td>實驗二</td>
+                            <td class="td_progress">尚未進行</td>
+                            <td class="td_testGrade">尚未進行</td>
+                            <td>尚未進行</td>
+                            <td>尚未進行</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="dialog">
+        <img src="res/close.png" alt="" class="dialog_close">
+        <h2>系統通知</h2>
+        <h4 class="dialog_content"></h4>
+    </div>
+    <div class="waitForConnect">
+        <h1>正在等待一同實驗的玩家</h1>
+        <div class="connect_player">
+            <div class="playerList" id="player_1"><img src="res/gameController.png" class="playerIcon"></div>
+            <div class="playerList" id="player_2"><img src="res/gameController.png" class="playerIcon"></div>
+            <div class="playerList" id="player_3"><img src="res/gameController.png" class="playerIcon"></div>
+        </div>
+        <div id="btnConnect" class="connectBtn"><h2>進入實驗</h2></div>
+    </div>
+</body>
+</html>
