@@ -246,18 +246,18 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
         this.updateChatInfo("meJoin");
     };
     DemoLoadBalancing.prototype.onActorJoin = function (actor) {
-        this.output("actor " + actor.actorNr + " joined");
+        this.output("actor " + actor.name + " joined");
         this.updateRoomInfo();
-        this.updateChatInfo("actorJoin", actor.actorNr);
+        this.updateChatInfo("actorJoin", actor.name);
     };
     DemoLoadBalancing.prototype.onActorLeave = function (actor) {
-        this.output("actor " + actor.actorNr + " left");
+        this.output("actor " + actor.name + " left");
         this.updateRoomInfo();
-        this.updateChatInfo("Leave", actor.actorNr);
+        this.updateChatInfo("Leave", actor.name);
     };
     DemoLoadBalancing.prototype.sendMessage = function (type, message) {
         try {
-            this.raiseEvent(1, { message: message, senderName: "user" + this.myActor().actorNr, senderType: type });
+            this.raiseEvent(1, { message: message, senderName: this.myActor().name, senderType: type });
             // this.output('me[' + this.myActor().actorNr + ']: ' + message, this.myActor().getCustomProperty("color"));
             var showList = "<ul class='conChatContent'>"
             var initValue = $(".conChatContent").html() === undefined ? "":$(".conChatContent").html();
@@ -309,6 +309,7 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
                 if (_this.isInLobby()) {
                     var expectedUsers = " ";
                     var name = " ";
+                    _this.myActor().setName($("#nav_userName").html());
                     _this.joinRandomOrCreateRoom({ expectedMaxPlayers: 3, expectedUsers: undefined }, undefined, { emptyRoomLiveTime: 20000, suspendedPlayerLiveTime: 20000, maxPlayers: 3});
                     //_this.joinRoom(gameId.length > 0 ? gameId : undefined, { createIfNotExists: true, expectedUsers: expectedUsers.length > 0 ? expectedUsers.value.split(",") : undefined }, { emptyRoomLiveTime: 20000, suspendedPlayerLiveTime: 20000, maxPlayers: 3 });
                     //this.joinRoom(gameId.value.length > 0 ? gameId.value : undefined, { createIfNotExists: true });
@@ -320,7 +321,7 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
             });
         // 進入實驗按鈕
         $("#btnConnect").click(function (e) { 
-            _this.raiseEvent(2, { message: "", senderName: "user" + _this.myActor().actorNr });
+            _this.raiseEvent(2, { message: "", senderName: _this.myActor().name });
             _this.startExperiment();
             _this.getNoteContent();
 

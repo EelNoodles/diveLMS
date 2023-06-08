@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
 import { getDatabase, ref, set, update, get, child, remove } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -46,14 +46,35 @@ window.onload = function (){
     onAuthStateChanged(auth, (user) => {
     if (user) {
         const uid = user.uid;
-        $("#welcomeBackText").html(`歡迎回來 ${uid} ！`);
+        $("#welcomeBackText").html(`${user.displayName}，歡迎回來！<br>(${uid}) `);
         $("#signInForm").css("display", "none");
         $("#hasSignIn").css("display", "block");
         demo = new DemoLoadBalancing();
         demo.start();
+        $("#nav_userName").html(user.displayName);
     }
     });
 }
+
+// let stuList = ["S10967025_盧奕捷","S10955059_鍾易恆","S10955018_顏玉傑","S10955044_戴元揚","S10955009_彭丞玉","S10955020_林倚萱","S10955028_陳昱臻","S10955014_張浩恩","S10955042_林士善","S10855050_薛渝頻","S10955027_吳柄城","S10955038_莊承新","S10955036_傅梓崵","S10955052_張哲倫","S10955017_梁茗凱","S10955002_徐弘宇","S10955007_黃御宸","S10955057_林霆瑋","S10955043_彭筱茜","S10955016_潘昱宏","S10955060_黃國峻","S10955053_塗謹嘉","S10955008_徐碩亨","S10955029_黃韻綺","S10955046_葉志軒","S10955031_陳韋臻","S10955030_謝秉均","S10955021_黃莉宸","S10855020_蔡永濂","S10955011_陳品中","S10955041_王柏晨","S10955047_許維芳","S10955032_楊喻翔","S10955006_童逸","S10959047_潘慧婷"];
+// function createAllStdentAccount() {
+//     stuList.forEach(element => {
+//         let temp = element.split("_")
+//         createUserWithEmailAndPassword(auth, `${temp[0]}@gm2.nutn.edu.tw`, 123456).then((userCredential) => {
+//             const user = userCredential.user;
+//             updateProfile(user, {
+//                 displayName: temp[1]
+//               }).then(() => {
+//                 let coursesList = ["course_signIn", "course_knowLab", "course_safetyLab"];
+//                 set(ref(db, `Users/${user.uid}`), {
+//                     coursesfinList: coursesList
+//                   }).then(()=>{
+//                     console.log(temp[0]+"註冊好了。");
+//                   });
+//               });
+//           });
+//     });
+// }
 
 function closeAllArea() {
     document.querySelectorAll(".contentArea").forEach((element) => {
@@ -350,24 +371,24 @@ function showDialog(content){
 
 function loadNormalDive(doCourse) {  
     const diveLinker = new DiveLinker("dive_2");
-    diveLinker.enableBlock(false);
-    diveLinker.start();
     switch (doCourse) {
         case "course_knowLab":
-            diveLinker.setProject();
+            diveLinker.setProject(27365);
             break;
         case "course_safetyLab":
-            diveLinker.setProject();
+            diveLinker.setProject(26739);
             break;
         case "experiment1_intro":
-            diveLinker.setProject();
+            diveLinker.setProject(27593);
             break;
         case "experiment1_theory":
-            diveLinker.setProject();
+            diveLinker.setProject(27648);
             break;
         default:
             break;
     }
+    diveLinker.enableBlock(false);
+    diveLinker.start();
     var detectFinish = setInterval(() => {
         if(diveLinker.checkComplete()){
             clearInterval(detectFinish);
@@ -493,54 +514,59 @@ function loadTest(grade) {
         }
         testContent += "</div>"
     }
-    testContent += "<div class='submitTest'><h2>送出</h2></div>";
-    $("#testArea").html(testContent);
-    $(".answerDiv").click(function (e) { 
-        let classList = e.target.classList[1].split("_");
-        $(`.${classList[0]}_0`).removeClass("choice");
-        $(`.${classList[0]}_1`).removeClass("choice");
-        $(`.${classList[0]}_2`).removeClass("choice");
-        $(`.${e.target.classList[1]}`).addClass("choice");
-        userAns[classList[0]] = classList[1];
-        e.preventDefault();
-    });
-    $(".submitTest").click(function (e) { 
-        let correct = 0;
-        for (let index = 0; index < userAns.length; index++) {
-            if(userAns[index] == questionAns[index]){
-                correct += 1;
-            }
-            $(`.${[index]}_${questionAns[index]}`).addClass("ans");
+    get(child(dbRef, `Users/${auth.currentUser.uid}/Test/experiment1_test`)).then((snapshot) => {
+        if (snapshot.exists()) {
+            grade = snapshot.val()["ansList"];
+        } 
+      }).then(()=>{
+        if(grade == undefined){
+            testContent += "<div class='submitTest'><h2>送出</h2></div>";
         }
-
-        set(ref(db, `Users/${auth.currentUser.uid}/Test/${currentCourse}`), {
-            correctCount: correct,
-            ansList: userAns
-          }).then(()=>{
+        $("#testArea").html(testContent);
+        $(".answerDiv").click(function (e) { 
+            let classList = e.target.classList[1].split("_");
+            $(`.${classList[0]}_0`).removeClass("choice");
+            $(`.${classList[0]}_1`).removeClass("choice");
+            $(`.${classList[0]}_2`).removeClass("choice");
+            $(`.${e.target.classList[1]}`).addClass("choice");
+            userAns[classList[0]] = classList[1];
+            e.preventDefault();
+        });
+        $(".submitTest").click(function (e) { 
+            let correct = 0;
+            for (let index = 0; index < userAns.length; index++) {
+                if(userAns[index] == questionAns[index]){
+                    correct += 1;
+                }
+                $(`.${[index]}_${questionAns[index]}`).addClass("ans");
+            }
             get(child(dbRef, `Users/${auth.currentUser.uid}`)).then((snapshot) => {
                 if (snapshot.exists()) {
                 let userCoursesList = snapshot.val()["coursesfinList"];
-                if(!(userCoursesList.includes(currentCourse))){
                     userCoursesList.push(currentCourse);
                     set(ref(db, `Users/${auth.currentUser.uid}`), {
                         coursesfinList: userCoursesList
+                    }).then(()=>{
+                        set(ref(db, `Users/${auth.currentUser.uid}/Test/${currentCourse}`), {
+                            correctCount: correct,
+                            ansList: userAns
+                          }).then(()=>{
+                            showDialog(`恭喜你結束了考試。<br>本次成績為：${correct}`)
+                            loadTest();
+                          });
                     });
-                    showDialog(`恭喜你結束了考試。<br>本次成績為：${correct}`)
-                }else{
-                    showDialog(`已經做過該測驗。<br>本次成績為：${correct}`)
-                    }
                 }
               }).catch((error) => {
                 console.error(error);
               });
-          });
-    });
-    if(grade != undefined){
-        for (let index = 0; index < userAns.length; index++) {
-            $(`.${[index]}_${questionAns[index]}`).addClass("ans");
+        });
+        if(grade != undefined){
+            for (let index = 0; index < userAns.length; index++) {
+                $(`.${[index]}_${questionAns[index]}`).addClass("ans");
+            }
+            for (let index = 0; index < grade.length; index++) {
+                $(`.${[index]}_${grade[index]}`).addClass("choice");
+            }
         }
-        for (let index = 0; index < grade.length; index++) {
-            $(`.${[index]}_${grade[index]}`).addClass("choice");
-        }
-    }
+      });
 }

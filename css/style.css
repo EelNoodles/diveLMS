@@ -34,6 +34,12 @@ html, body{
     margin-right: 20px;
 }
 
+.NavBar > .nav_area:nth-child(2) > img{
+    width: 20%;
+    aspect-ratio: 1/1;
+    margin-right: 20px;
+}
+
 .NavBar > .nav_area:nth-child(2){
     width: 20%;
     height: 100%;
@@ -56,7 +62,7 @@ html, body{
     margin: 0 5% 0 5%;
 }
 
-.nav_text:not(.nav_image)::before{
+.nav_text:not(.nav_image, :nth-child(1))::before{
     content: "";
     position: absolute;
     top: 0;
