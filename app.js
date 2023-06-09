@@ -98,7 +98,7 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
             case 3:
                 const diveLinker = this.loadDive();
                 console.log(content.diffId, content.diffValue)
-                diveLinker.setInput(content.diffId[0], 0);
+                diveLinker.setInput(content.diffId[0], content.diffValue[0]);
                 diveLinker.setInput(content.diffId[1], 1);
                 diveLinker.setInput(content.diffId[2], content.diffValue[2]);
                 diveLinker.setInput(content.diffId[3], content.diffValue[3]);
@@ -194,10 +194,10 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
             }
             if(!(JSON.stringify(outputValue) === JSON.stringify(lastOutput))){
                 var index = 0;
-                outputValue.forEach(element => {
-                    if(element == 1){
+                while(index < outputValue.length){
+                    if(outputValue[index] == 1){
                         diffLoc = index;
-                        console.log("抓到你動了" + index)
+                        console.log("抓到你動了" + index + diveLinker.getOutputList());
                         this.raiseEvent(3, { diffId: [Object.keys(diveLinker.getOutputList())[diffLoc],
                             Object.keys(diveLinker.getOutputList())[diffLoc+1],
                             Object.keys(diveLinker.getOutputList())[diffLoc+2],
@@ -211,8 +211,27 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
                         });
                         diveLinker.setInput(Object.keys(diveLinker.getOutputList())[diffLoc], 0);
                     }
-                    index += 1;
-                });
+                    index += 5;
+                }
+                // outputValue.forEach(element => {
+                //     if(element == 1){
+                //         diffLoc = index;
+                //         console.log("抓到你動了" + index)
+                //         this.raiseEvent(3, { diffId: [Object.keys(diveLinker.getOutputList())[diffLoc],
+                //             Object.keys(diveLinker.getOutputList())[diffLoc+1],
+                //             Object.keys(diveLinker.getOutputList())[diffLoc+2],
+                //             Object.keys(diveLinker.getOutputList())[diffLoc+3],
+                //             Object.keys(diveLinker.getOutputList())[diffLoc+4]]
+                //         , diffValue: [Object.values(diveLinker.getOutputList())[diffLoc]["value"],
+                //             Object.values(diveLinker.getOutputList())[diffLoc+1]["value"],
+                //             Object.values(diveLinker.getOutputList())[diffLoc+2]["value"],
+                //             Object.values(diveLinker.getOutputList())[diffLoc+3]["value"],
+                //             Object.values(diveLinker.getOutputList())[diffLoc+4]["value"]]
+                //         });
+                //         diveLinker.setInput(Object.keys(diveLinker.getOutputList())[diffLoc], 0);
+                //     }
+                //     index += 1;
+                // });
             }
             lastOutput = [];
             for (const [key, value] of Object.entries(diveLinker.getOutputList())) {
