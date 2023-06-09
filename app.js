@@ -193,13 +193,12 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
             for (const [key, value] of Object.entries(diveLinker.getOutputList())) {
                 outputValue.push(value["value"]);
             }
-            console.log(outputValue);
             if(!(JSON.stringify(outputValue) === JSON.stringify(lastOutput))){
                 var index = 0;
                 while(index < outputValue.length){
                     if(outputValue[index] == 1){
                         diffLoc = index;
-                        console.log("抓到你動了" + index + diveLinker.getOutputList());
+                        console.log("抓到你動了" + index + "\n" +outputValue);
                         this.raiseEvent(3, { diffId: [Object.keys(diveLinker.getOutputList())[diffLoc],
                             Object.keys(diveLinker.getOutputList())[diffLoc+1],
                             Object.keys(diveLinker.getOutputList())[diffLoc+2],
