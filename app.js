@@ -193,6 +193,7 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
             for (const [key, value] of Object.entries(diveLinker.getOutputList())) {
                 outputValue.push(value["value"]);
             }
+            console.log(outputValue);
             if(!(JSON.stringify(outputValue) === JSON.stringify(lastOutput))){
                 var index = 0;
                 while(index < outputValue.length){
