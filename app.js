@@ -125,8 +125,6 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
     };
     DemoLoadBalancing.prototype.loadDive = function () {
         const diveLinker = new DiveLinker("dive");
-        diveLinker.enableBlock(false);
-        diveLinker.start();
 
         return diveLinker;
     };
@@ -185,6 +183,8 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
     DemoLoadBalancing.prototype.startExperiment = function () {
         clearInterval(startDetect);
         diveLinker = this.loadDive();
+        diveLinker.enableBlock(false);
+        diveLinker.start();
         var outputValue = [];
         var lastOutput = [];
         var startDetect = setInterval(() => {
