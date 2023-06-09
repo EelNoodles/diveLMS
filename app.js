@@ -185,7 +185,7 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
         diveLinker = this.loadDive();
         diveLinker.enableBlock(false);
         diveLinker.start();
-        $("#sendNote").click(function (e) { _this.getNoteContent();});
+        this.getNoteContent();
         var outputValue = [];
         var lastOutput = [];
         var startDetect = setInterval(() => {
@@ -365,6 +365,7 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
             var showList = "";
             showList += `<ul class='conChatContent'>${$(".conChatContent").html()}<li><span style='color:lightcoral; font-weight:bold'>實驗開始！</span></li></ul>`
             $(".chatMessenge").html(showList);
+            $("#sendNote").click(function (e) { _this.getNoteContent();});
             e.preventDefault();
             });
         // var btnJoinRandom = document.getElementById("joinrandomgamebtn");
