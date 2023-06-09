@@ -84,6 +84,7 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
                 }
                 break;
             case 2:
+                this.startExperiment();
                 $(".waitForConnect").removeClass("active");
                 setTimeout(() => {
                     $(".waitForConnect").css("display", "none");
@@ -93,7 +94,6 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
                 showList += `<ul class='conChatContent'>${initValue}<li><span style='color:lightcoral; font-weight:bold'>實驗開始！</span></li></ul>`
                 $(".chatMessenge").html(showList);
                 $(".chatMessenge").animate({ scrollTop: $(".chatMessenge").height() }, 1000);
-                this.startExperiment();
                 break;
             case 3:
                 const diveLinker = this.loadDive();
@@ -185,6 +185,7 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
         diveLinker = this.loadDive();
         diveLinker.enableBlock(false);
         diveLinker.start();
+        $("#sendNote").click(function (e) { _this.getNoteContent();});
         var outputValue = [];
         var lastOutput = [];
         var startDetect = setInterval(() => {
@@ -249,7 +250,7 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
             for (const [key, value] of Object.entries(diveLinker.getOutputList())) {
                 lastOutput.push(value["value"]);
             }
-        }, 1000);
+        }, 1);
     };
     // DemoLoadBalancing.prototype.onRoomList = function (rooms) {
     //     var menu = document.getElementById("gamelist");
@@ -354,7 +355,6 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
         $("#btnConnect").click(function (e) { 
             _this.raiseEvent(2, { message: "", senderName: _this.myActor().name });
             _this.startExperiment();
-            _this.getNoteContent();
 
             var r = _this.myRoom();
             r.setIsOpen(false);
@@ -365,7 +365,6 @@ var DemoLoadBalancing = /** @class */ (function (_super) {
             var showList = "";
             showList += `<ul class='conChatContent'>${$(".conChatContent").html()}<li><span style='color:lightcoral; font-weight:bold'>實驗開始！</span></li></ul>`
             $(".chatMessenge").html(showList);
-            $("#sendNote").click(function (e) { _this.getNoteContent();});
             e.preventDefault();
             });
         // var btnJoinRandom = document.getElementById("joinrandomgamebtn");
